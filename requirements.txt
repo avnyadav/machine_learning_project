@@ -3,3 +3,4 @@ Flask
 gunicorn
 sklearn
 pandas
+-e .
