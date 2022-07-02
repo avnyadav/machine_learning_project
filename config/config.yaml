@@ -14,7 +14,10 @@ data_ingestion_config:
 
 
 data_validation_config:
+  schema_dir: config
   schema_file_name: schema.yaml
+  report_file_name: report.json
+  report_page_file_name: report.html
 
 data_transformation_config:
   add_bedroom_per_room: true
