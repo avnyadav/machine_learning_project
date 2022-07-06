@@ -11,18 +11,18 @@
 
 {% block content %}
 
+
+Go to <a class="btn btn-primary" href="/">Home</a>
 <div class="row">
     <div class="alert alert-primary" role="alert">
         {{ context['message']}}
       </div>
-    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
-
+  
         {{ context['experiment']|safe }}
 
-</div>
+
    
 </div>
 
-    Go to <a class="btn btn-primary" href="/">Home</a>
         
 {% endblock %}

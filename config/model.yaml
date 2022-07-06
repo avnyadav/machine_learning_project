@@ -21,24 +21,12 @@ model_selection:
     class: RandomForestRegressor
     module: sklearn.ensemble
     params:
-      n_estimators: 40
       min_samples_leaf: 2
     search_param_grid:
       min_samples_leaf:
       - 2
       n_estimators:
-      - 50
-  module_2:
-    class: SVR
-    module: sklearn.svm
-    search_param_grid:
-      kernel:
-      - poly
-      - rbf
-      - sigmoid
-      
-
-
+      - 10
      
 
   

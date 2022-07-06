@@ -7,6 +7,8 @@ from matplotlib.style import context
 from housing.logger import logging
 from housing.exception import HousingException
 import os,sys
+from housing.config.configuration import Configuartion
+from housing.constant import get_current_time_stamp
 from housing.pipeline.pipeline import Pipeline
 from housing.entity.housing_predictor import HousingPredictor,HousingData
 from flask import send_file, abort, render_template
@@ -22,7 +24,7 @@ HOUSING_DATA_KEY = "housing_data"
 MEDIAN_HOUSING_VALUE_KEY = "median_house_value"
 
 app = Flask(__name__)
-pipeline=Pipeline()
+
 
 
 
@@ -69,23 +71,23 @@ def index():
 
 @app.route('/view_experiment_hist', methods=['GET', 'POST'])
 def view_experiment_history():
-    
-    experiment_list = pipeline.get_experiment_history()
+    experiment_df = Pipeline.get_experiments_status()
     context = {
-        "experiment_list":[experiment.to_html(classes='table table-striped') for experiment in experiment_list]
+        "experiment":experiment_df.to_html(classes='table table-striped col-12')
     }
     return render_template('experiment_history.html',context=context)
 
 @app.route('/train', methods=['GET', 'POST'])
 def train():
     message=""
-    if not pipeline.experiment.running_status:
+    pipeline=Pipeline(config=Configuartion(current_time_stamp=get_current_time_stamp()))
+    if not Pipeline.experiment.running_status:
         message="Training started."
         pipeline.start()
     else:
         message="Training is already in progress."
     context = {
-        "experiment": pipeline.get_experiment_status().to_html(classes='table table-striped'),
+        "experiment": pipeline.get_experiments_status().to_html(classes='table table-striped col-12'  ),
         "message":message
     }
     return render_template('train.html',context=context)
