@@ -6,5 +6,4 @@ pandas
 PyYAML
 evidently
 dill
-neuro-mf==0.0.4
 -e .
