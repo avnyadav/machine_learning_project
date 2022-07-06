@@ -1,14 +1,14 @@
-from multiprocessing.dummy import Pipe
-from xml.etree.ElementTree import PI
+
 from flask import Flask,request
 import sys
-
+from housing.util.util import read_yaml_file,write_yaml_file
 from matplotlib.style import context
 from housing.logger import logging
 from housing.exception import HousingException
 import os,sys
+import json
 from housing.config.configuration import Configuartion
-from housing.constant import get_current_time_stamp
+from housing.constant import CONFIG_DIR, get_current_time_stamp
 from housing.pipeline.pipeline import Pipeline
 from housing.entity.housing_predictor import HousingPredictor,HousingData
 from flask import send_file, abort, render_template
@@ -16,6 +16,7 @@ ROOT_DIR = os.getcwd()
 LOG_FOLDER_NAME = "logs"
 PIPELINE_FOLDER_NAME = "housing"
 SAVED_MODELS_DIR_NAME = "saved_models"
+MODEL_CONFIG_FILE_PATH = os.path.join(ROOT_DIR,CONFIG_DIR,"model.yaml")
 LOG_DIR = os.path.join(ROOT_DIR, LOG_FOLDER_NAME)
 PIPELINE_DIR = os.path.join(ROOT_DIR, PIPELINE_FOLDER_NAME)
 MODEL_DIR = os.path.join(ROOT_DIR, SAVED_MODELS_DIR_NAME)
@@ -158,6 +159,23 @@ def saved_models_dir(req_path):
     }
     return render_template('saved_models_files.html', result=result)
 
+@app.route("/update_model_config",methods=['GET','POST'])
+def update_model_config():
+    try:
+        if request.method=='POST':
+            model_config = request.form['new_model_config']
+            model_config = model_config.replace("'",'"')
+            print(model_config)
+            model_config =json.loads(model_config)
+            
+            write_yaml_file(file_path=MODEL_CONFIG_FILE_PATH,data=model_config)
+        
+        model_config=  read_yaml_file(file_path=MODEL_CONFIG_FILE_PATH)
+        return render_template('update_model.html', result={"model_config":model_config})
+
+    except  Exception as e:
+        logging.exception(e)
+        return str(e)
 
 @app.route(f'/logs', defaults={'req_path': f'{LOG_FOLDER_NAME}'})
 @app.route(f'/{LOG_FOLDER_NAME}/<path:req_path>')
@@ -174,7 +192,7 @@ def render_log_dir(req_path):
     # Check if path is a file and serve
     if os.path.isfile(abs_path):
         log_df = get_log_dataframe(abs_path)
-        context = {"log":log_df.to_html(classes="table table-dark table-striped",index=False)}
+        context = {"log":log_df.to_html(classes="table-striped",index=False)}
         return render_template('log.html', context=context)
 
     # Show directory contents

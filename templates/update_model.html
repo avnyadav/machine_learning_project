@@ -1,0 +1,43 @@
+{% extends 'header.html' %}
+
+{% block head %}
+
+
+<title>Model Config</title>
+{% endblock %}
+
+{% block content %}
+
+
+Go to <a class="btn btn-primary" href="/">Home</a>
+<div class="row">
+  
+    <div class="col-md-12 " style="margin-bottom:20px;height:500px;overflow:scroll">
+        <form method="post">
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Existing model config</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"  readonly>
+                    {{ result['model_config'] }}
+
+                </textarea>
+              </div>
+        
+              <div class="mb-3">
+              <a href="https://jsonformatter.curiousconcept.com/#" class="btn btn-primary" target="_blank">Validate model config json</a>
+        </div>
+
+        <div class="mb-3">
+            <input type="submit"  class="btn btn-danger" value="Update model config"/>
+          </div>
+              <div class="mb-3">
+            <label for="exampleFormControlTextarea2" class="form-label">Model Config JSON:</label>
+            <textarea class="form-control" name="new_model_config" id="exampleFormControlTextarea2" rows="10"></textarea>
+        </div>
+        
+        </form>
+    </div>
+</div>
+
+
+        
+{% endblock %}
