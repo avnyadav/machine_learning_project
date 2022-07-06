@@ -20,7 +20,7 @@ import os, sys
 from collections import namedtuple
 from datetime import datetime
 import pandas  as pd
-from housing.constant import EXPERIMENT_DIR_NAME
+from housing.constant import EXPERIMENT_DIR_NAME, EXPERIMENT_FILE_NAME
 Experiment = namedtuple("Experiment",["experiment_id","initialization_timestamp","artifact_time_stamp",
 "running_status","start_time","stop_time","execution_time","message","experiment_file_path"])
 
@@ -34,7 +34,7 @@ class Pipeline(Thread):
     experiment:Experiment=Experiment(*([None]*9))
    
     experiment_file_path = os.path.join(config.training_pipeline_config.artifact_dir,
-    EXPERIMENT_DIR_NAME,"experiment.csv")
+    EXPERIMENT_DIR_NAME,EXPERIMENT_FILE_NAME)
 
 
     def __init__(self, config: Configuartion = config) -> None:

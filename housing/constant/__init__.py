@@ -97,3 +97,4 @@ HISTORY_KEY = "history"
 MODEL_PATH_KEY = "model_path"
 
 EXPERIMENT_DIR_NAME="experiment"
+EXPERIMENT_FILE_NAME="experiment.csv"

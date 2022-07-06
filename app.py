@@ -19,7 +19,7 @@ SAVED_MODELS_DIR_NAME = "saved_models"
 LOG_DIR = os.path.join(ROOT_DIR, LOG_FOLDER_NAME)
 PIPELINE_DIR = os.path.join(ROOT_DIR, PIPELINE_FOLDER_NAME)
 MODEL_DIR = os.path.join(ROOT_DIR, SAVED_MODELS_DIR_NAME)
-
+from housing.logger import get_log_dataframe
 HOUSING_DATA_KEY = "housing_data"
 MEDIAN_HOUSING_VALUE_KEY = "median_house_value"
 
@@ -173,7 +173,9 @@ def render_log_dir(req_path):
 
     # Check if path is a file and serve
     if os.path.isfile(abs_path):
-        return send_file(abs_path)
+        log_df = get_log_dataframe(abs_path)
+        context = {"log":log_df.to_html(classes="table table-dark table-striped",index=False)}
+        return render_template('log.html', context=context)
 
     # Show directory contents
     files = {os.path.join(abs_path, file): file for file in os.listdir(abs_path)}
