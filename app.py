@@ -11,7 +11,7 @@ from housing.pipeline.pipeline import Pipeline
 from housing.entity.housing_predictor import HousingPredictor,HousingData
 from flask import send_file, abort, render_template
 ROOT_DIR = os.getcwd()
-LOG_FOLDER_NAME = "housing_logs"
+LOG_FOLDER_NAME = "logs"
 PIPELINE_FOLDER_NAME = "housing"
 SAVED_MODELS_DIR_NAME = "saved_models"
 LOG_DIR = os.path.join(ROOT_DIR, LOG_FOLDER_NAME)
@@ -49,7 +49,7 @@ def render_artifact_dir(req_path):
         return send_file(abs_path)
 
     # Show directory contents
-    files = {os.path.join(abs_path, file): file for file in os.listdir(abs_path)}
+    files = {os.path.join(abs_path, file_name): file_name for file_name in os.listdir(abs_path) if "artifact" in os.path.join(abs_path,file_name)}
 
     result = {
         "files": files,
@@ -78,10 +78,15 @@ def view_experiment_history():
 
 @app.route('/train', methods=['GET', 'POST'])
 def train():
+    message=""
     if not pipeline.experiment.running_status:
+        message="Training started."
         pipeline.start()
+    else:
+        message="Training is already in progress."
     context = {
-        "experiment": pipeline.get_experiment_status().to_html(classes='table table-striped')
+        "experiment": pipeline.get_experiment_status().to_html(classes='table table-striped'),
+        "message":message
     }
     return render_template('train.html',context=context)
 
@@ -152,12 +157,12 @@ def saved_models_dir(req_path):
     return render_template('saved_models_files.html', result=result)
 
 
-@app.route('/logs', defaults={'req_path': 'logs'})
-@app.route('/logs/<path:req_path>')
+@app.route(f'/logs', defaults={'req_path': f'{LOG_FOLDER_NAME}'})
+@app.route(f'/{LOG_FOLDER_NAME}/<path:req_path>')
 def render_log_dir(req_path):
-    os.makedirs("logs", exist_ok=True)
+    os.makedirs(LOG_FOLDER_NAME, exist_ok=True)
     # Joining the base and the requested path
-    print(f"req_path: {req_path}")
+    logging.info(f"req_path: {req_path}")
     abs_path = os.path.join(req_path)
     print(abs_path)
     # Return 404 if path doesn't exist
