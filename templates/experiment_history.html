@@ -1,0 +1,22 @@
+{% extends 'header.html' %}
+
+{% block head %}
+
+
+<title>Train Status</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    {% for experiment in  context['experiment_list'] %}
+    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+
+    {{ experiment|safe }}
+
+</div>
+    {% endfor %}
+</div>
+    Go to <a class="btn btn-primary" href="/">Home</a>
+        
+{% endblock %}

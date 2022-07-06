@@ -1,0 +1,36 @@
+{% extends 'header.html' %}
+
+{% block head %}
+
+
+<title>Housing Estimator</title>
+{% endblock %}
+
+{% block content %}
+
+
+    
+{% if "housing" in result['parent_folder'] %}
+<a href="/artifact/{{result['parent_folder']}}"><i class="fa fa-arrow-left" aria-hidden="true"></i>Back</a>
+
+<h4 style="text-align:center;">
+{{result['parent_label']}}
+</h4>
+    {% endif %}
+
+<div class="row">
+    {% for href,label in result["files"].items() %}
+    <div class="col-md-2 text-center">
+        <a href="/artifact/{{href}}" style="text-decoration: none;">
+
+            <i class="fa {% if '.' in label %} fa-file {% else %} fa-folder {% endif %} fa-8x" aria-hidden="true"></i> <br>{{ label }}
+            {% if '.' in label %}
+        <i class="fa fa-download" aria-hidden="true"></i>
+        {% endif %}
+    </a>
+    </div>
+    {% endfor %}
+   
+</div>
+
+    {% endblock %}
