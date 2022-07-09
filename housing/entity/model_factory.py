@@ -62,7 +62,7 @@ def evaluate_regression_model(model_list: list, X_train:np.ndarray, y_train:np.n
     """
     try:
         
-        #model_list = [model.best_model for model in model_list]
+    
         index_number = 0
         metric_info_artifact = None
         for model in model_list:
@@ -78,8 +78,8 @@ def evaluate_regression_model(model_list: list, X_train:np.ndarray, y_train:np.n
             test_acc = r2_score(y_test, y_test_pred)
             
             #Calculating mean squared error on training and testing dataset
-            train_rmse = mean_squared_error(y_train, y_train_pred)
-            test_rmse = mean_squared_error(y_test, y_test_pred)
+            train_rmse = np.sqrt(mean_squared_error(y_train, y_train_pred))
+            test_rmse = np.sqrt(mean_squared_error(y_test, y_test_pred))
 
             # Calculating harmonic mean of train_accuracy and test_accuracy
             model_accuracy = (2 * (train_acc * test_acc)) / (train_acc + test_acc)

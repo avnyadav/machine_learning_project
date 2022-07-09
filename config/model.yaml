@@ -13,15 +13,12 @@ model_selection:
     search_param_grid:
       fit_intercept:
       - true
+      - false
   module_1:
     class: RandomForestRegressor
     module: sklearn.ensemble
     params:
-      min_samples_leaf: 2
+      min_samples_leaf: 3
     search_param_grid:
       min_samples_leaf:
       - 4
-      - 6
-      - 12
-      n_estimators:
-      - 100

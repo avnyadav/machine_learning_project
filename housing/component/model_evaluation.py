@@ -55,6 +55,8 @@ class ModelEvaluation:
             eval_file_path = self.model_evaluation_config.model_evaluation_file_path
             model_eval_content = read_yaml_file(file_path=eval_file_path)
             model_eval_content = dict() if model_eval_content is None else model_eval_content
+            
+            
             previous_best_model = None
             if BEST_MODEL_KEY in model_eval_content:
                 previous_best_model = model_eval_content[BEST_MODEL_KEY]
@@ -101,11 +103,6 @@ class ModelEvaluation:
             target_column_name = schema_content[TARGET_COLUMN_KEY]
 
             # target_column
-            logging.info(f"Converting target column into numpy array.")
-            train_target_arr = np.array(train_dataframe[target_column_name])
-            test_target_arr = np.array(test_dataframe[target_column_name])
-            logging.info(f"Conversion completed target column into numpy array.")
-
             logging.info(f"Converting target column into numpy array.")
             train_target_arr = np.array(train_dataframe[target_column_name])
             test_target_arr = np.array(test_dataframe[target_column_name])
