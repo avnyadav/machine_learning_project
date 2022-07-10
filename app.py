@@ -20,6 +20,8 @@ MODEL_CONFIG_FILE_PATH = os.path.join(ROOT_DIR, CONFIG_DIR, "model.yaml")
 LOG_DIR = os.path.join(ROOT_DIR, LOG_FOLDER_NAME)
 PIPELINE_DIR = os.path.join(ROOT_DIR, PIPELINE_FOLDER_NAME)
 MODEL_DIR = os.path.join(ROOT_DIR, SAVED_MODELS_DIR_NAME)
+
+
 from housing.logger import get_log_dataframe
 
 HOUSING_DATA_KEY = "housing_data"

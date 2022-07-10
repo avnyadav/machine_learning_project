@@ -21,4 +21,4 @@ model_selection:
       min_samples_leaf: 3
     search_param_grid:
       min_samples_leaf:
-      - 4
+      - 6
